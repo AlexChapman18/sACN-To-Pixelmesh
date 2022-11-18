@@ -85,10 +85,12 @@ public class Display extends JFrame{
 
     public void setTestCard(){
         int index = 0;
-        int steps = (int) Math.floor(255 / segments.length);
         for (Segment segment : segments){
-            segment.setColor(new Color(0, index, index));
-            index += steps;
+            if (index % 2 == 0)
+                segment.setColor(Color.GRAY);
+            else
+                segment.setColor(Color.WHITE);
+            index ++;
         }
     }
 
