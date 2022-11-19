@@ -1,3 +1,5 @@
+package main;
+
 import SaCN.Universes;
 import VideoOutput.Calculations;
 import VideoOutput.Display;
@@ -13,9 +15,6 @@ import java.util.Locale;
 import java.util.Properties;
 
 public class run {
-
-
-
     public static void main(String[] args) throws IOException, PcapNativeException {
 
         int screenNum = Integer.parseInt(args[0]);

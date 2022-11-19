@@ -1,4 +1,4 @@
-run.class
 VideoOutput\Calculations.class
 VideoOutput\Display.class
+main\run.class
 VideoOutput\Segment.class
