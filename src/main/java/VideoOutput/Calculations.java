@@ -7,8 +7,6 @@ public class Calculations {
     int numPanelsWide;
     int numPanelsTall;
 
-
-
 //    Constructor
     public Calculations(int mode, int numPanelsWide, int numPanelsTall) {
         this.mode = setMode(mode);
@@ -19,12 +17,6 @@ public class Calculations {
 //    Getters
     public int[] getMode() {
         return mode;
-    }
-    public int getNumPanelsWide() {
-        return numPanelsWide;
-    }
-    public int getNumPanelsTall() {
-        return numPanelsTall;
     }
 
 //    Setter for mode and cleans input

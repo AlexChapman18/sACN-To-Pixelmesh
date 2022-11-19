@@ -5,38 +5,33 @@ import org.pcap4j.core.PcapNativeException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Locale;
+import java.util.Properties;
 
 public class run {
 
 
 
-    public static void main(String[] args) throws InterruptedException, UnknownHostException, PcapNativeException {
+    public static void main(String[] args) throws IOException, PcapNativeException {
 
-        boolean testCard = false;
         int screenNum = Integer.parseInt(args[0]);
         int mode = Integer.parseInt(args[1]);
         int numPanelsWide = Integer.parseInt(args[2]);
         int numPanelsTall = Integer.parseInt(args[3]);
-        if (args[4] != null && args[4].equalsIgnoreCase("true"))
-            testCard = true;
+        String adapterAddress = args[4];
 
 
         Display display = new Display(screenNum);
         display.initialiseScreen();
         Calculations calculations = new Calculations(mode, numPanelsWide, numPanelsTall);
         display.makeSegments(numPanelsWide, numPanelsTall, calculations.getMode());
-//        display.setTestCard();
-//        display.drawSegments();
-//        display.testSegments();
 
-        Universes universe = new Universes(display);
+        Universes universe = new Universes(adapterAddress, display);
         universe.listen();
         universe.handle.close();
-
-        System.out.println("Finished!");
-
-
     }
 }

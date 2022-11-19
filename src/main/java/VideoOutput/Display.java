@@ -67,10 +67,6 @@ public class Display extends JFrame{
         this.segments.get(index).setColor(color);
     }
 
-//    public Segment[] getSegments(){
-//        return segments;
-//    }
-
     public void makeSegments(int numPanelsWide, int numPanelsTall, int[] mode) {
 
         int wallWidth = (numPanelsWide * PIXELS_WIDE);
@@ -89,17 +85,6 @@ public class Display extends JFrame{
         }
 
         this.segments = segmentList;
-    }
-
-    public void setTestCard(){
-        int index = 0;
-        for (Segment segment : segments){
-            if (index % 2 == 0)
-                segment.setColor(Color.GRAY);
-            else
-                segment.setColor(Color.WHITE);
-            index ++;
-        }
     }
 
     public void drawSegments(){
