@@ -31,13 +31,10 @@ public class Calculations {
     public int[] setMode(int mode){
         return switch (mode) {
             case 1 -> new int[]{4, 4};
-            case 2 -> new int[]{16, 16};
-            case 3 -> new int[]{16, 32};
+            case 2 -> new int[]{8, 8};
+            case 3 -> new int[]{16, 16};
+            case 4 -> new int[]{16, 32};
             default -> new int[]{32, 64};
         };
     }
-
-
-
-
 }
