@@ -46,7 +46,6 @@ public class Display extends JFrame{
                     ((this.screenHeight / 2) - (this.getSize().height / 2)) + graphicsDevice[screenNum].getDefaultConfiguration().getBounds().y
             );
             this.setVisible(true);
-            System.out.println("Screen initialised successfully");
         } else {
             throw new RuntimeException( "Screen " + screenNum +" not found");
         }
@@ -94,19 +93,6 @@ public class Display extends JFrame{
     public void setAllSegments(Color color){
         for (Segment segment : segments){
             segment.setColor(color);
-        }
-    }
-
-    public void testSegments() throws InterruptedException {
-        setAllSegments(Color.BLACK);
-        drawSegments();
-        for (Color color : new Color[]{Color.red, Color.green, Color.blue, Color.white}){
-            for (Segment segment : segments){
-                segment.setColor(color);
-                drawSegments();
-                Thread.sleep(500);
-                segment.setColor(Color.BLACK);
-            }
         }
     }
 
