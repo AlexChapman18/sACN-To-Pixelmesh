@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 public class Universes {
 
-//    constant
+//    Constants
     static byte[] SACN_ADDRESS = new byte[]{(byte)239, (byte)255, 0};
     static int SRC_ADDRESS_INDEX = 26;
     static int DST_ADDRESS_INDEX = 30;
@@ -29,6 +29,8 @@ public class Universes {
 
 //    Constructor
     public Universes(String adapterAddress, Display display) throws PcapNativeException, UnknownHostException {
+
+//        Set variables
         int segments = display.getNumSegments();
         this.requiredChannels = segments * 3;
         this.requiredUniverses = (this.requiredChannels / 512) + 1;
@@ -36,7 +38,7 @@ public class Universes {
         this.indexes = IntStream.range(1, segments + 1).toArray();
         this.adapterAddress = adapterAddress;
 
-
+//        Gets the handle used for listening for packets
         InetAddress address = InetAddress.getByName(adapterAddress);
         PcapNetworkInterface nif = Pcaps.getDevByAddress(address);
         int snapLen = 65536;
@@ -58,23 +60,32 @@ public class Universes {
                 int universeNum = Byte.toUnsignedInt(rawPacket[DST_UNIVERSE_INDEX]);
 //                If the universe is being used by the video wall, use it
                 if (universeNum <= requiredUniverses){
-                    int index = 0;
-                    byte[] byteUniverse = Arrays.copyOfRange(packet.getRawData(), UNIVERSE_INDEX, UNIVERSE_INDEX+512);
-                    while (((universeNum -1) * 170 + index) < display.getNumSegments() && (index*3)+2 < 510){
 
-                        int universeOffset = (universeNum -1) * 170;
-                        int red = Byte.toUnsignedInt(byteUniverse[index*3]);
-                        int green = Byte.toUnsignedInt(byteUniverse[(index*3)+1]);
-                        int blue = Byte.toUnsignedInt(byteUniverse[(index*3)+2]);
-                        display.setSegment(universeOffset + index, new Color(red, green, blue));
-                        index++;
+//                    Tries to set segment values to that of packet, if it fails, prints exception
+                    try{
+                        int index = 0;
+                        byte[] byteUniverse = Arrays.copyOfRange(packet.getRawData(), UNIVERSE_INDEX, UNIVERSE_INDEX+512);
+                        while (((universeNum -1) * 170 + index) < display.getNumSegments() && (index*3)+2 < 510){
+
+//                        Go through each byte and set the RGB  value of each segment
+                            int universeOffset = (universeNum -1) * 170;
+                            int red = Byte.toUnsignedInt(byteUniverse[index*3]);
+                            int green = Byte.toUnsignedInt(byteUniverse[(index*3)+1]);
+                            int blue = Byte.toUnsignedInt(byteUniverse[(index*3)+2]);
+                            display.setSegment(universeOffset + index, new Color(red, green, blue));
+                            index++;
+                        }
+                        display.drawSegments();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        System.out.println("Bad packet");
                     }
-                    display.drawSegments();
                 }
             }
         }
     };
 
+//    Loop listening for sACN packets
     public void listen(){
         try {
             handle.loop(-1, listener);
@@ -82,6 +93,4 @@ public class Universes {
             e.printStackTrace();
         }
     }
-
-
 }
